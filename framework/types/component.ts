@@ -4,5 +4,10 @@ export type ComponentFunction<T = any> = (props?: T) => Node;
 
 export interface Component {
     default: ComponentFunction,
-    metadata?: ComponentMetadata
+    metadata?: {
+        router: string,
+        name: string,
+        description: string,
+        params: string[]
+    }
 }

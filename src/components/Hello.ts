@@ -1,4 +1,4 @@
-import { createElement } from "../../framework/core/components.ts";
+import { h1, div, button } from "../../framework/core/components.ts";
 
 
 interface HelloProps {
@@ -12,7 +12,6 @@ const Hello = (props: HelloProps) => {
 
     const changeColor = () => {
         const el = document.getElementById("hello-world");
-        console.log(el)
         if (el) {
             const tmp_color = el.style.color;
             switch (tmp_color) {
@@ -37,9 +36,9 @@ const Hello = (props: HelloProps) => {
         alert(text);
     }
 
-    return createElement.div(
+    return div(
         {},
-        createElement.h1(
+        h1(
             {
                 id: "hello-world",
                 class: "flex flex-col items-center",
@@ -47,7 +46,7 @@ const Hello = (props: HelloProps) => {
             },
             text
         ),
-        createElement.button(
+        button(
             {
                 class:"btn btn-primary",
                 onClick: handleClick

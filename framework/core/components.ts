@@ -34,14 +34,13 @@ function MjsElement(
 * @param children Nœuds enfants
 * @returns HTMLElement
  */
-const createElement = {
-    div: (props?: Props, ...children: Child[]) => MjsElement("div", props, ...children),
-    p: (props?: Props, ...children: Child[]) => MjsElement("p", props, ...children),
-    h1: (props?: Props, ...children: Child[]) => MjsElement("h1", props, ...children),
-    h2: (props?: Props, ...children: Child[]) => MjsElement("h2", props, ...children),
-    button: (props?: Props, ...children: Child[]) => MjsElement("button", props, ...children),
-    span: (props?: Props, ...children: Child[]) => MjsElement("span", props, ...children),
-};
+const div = (props?: Props, ...children: Child[]): Node => MjsElement("div", props, ...children);
+const p = (props?: Props, ...children: Child[]): Node => MjsElement("p", props, ...children);
+const h1 = (props?: Props, ...children: Child[]): Node => MjsElement("h1", props, ...children);
+const h2 = (props?: Props, ...children: Child[]): Node => MjsElement("h2", props, ...children);
+const button = (props?: Props, ...children: Child[]): Node => MjsElement("button", props, ...children);
+const span = (props?: Props, ...children: Child[]): Node => MjsElement("span", props, ...children);
 
-export {createElement};
+export {div, p, h1, h2, button, span}
+
 export default MjsElement;

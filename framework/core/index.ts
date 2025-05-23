@@ -19,7 +19,7 @@ class MjsFramework {
      */
     createDOMElement(node: Child): HTMLElement | Text | null {
         if (this.isComponent(node)) {
-            return this.createDOMElement(node.default);
+            return this.createDOMElement(node);
         }
 
         // Cas texte ou nombre
@@ -47,6 +47,17 @@ class MjsFramework {
         }
 
         this.setProps(element, node.props);
+
+        if ((node as any)._signal) {
+
+            console.log(node._signal)
+
+            const signal = (node as any)._signal;
+            signal.bindElement(element);
+
+            element.textContent = String(signal.value);
+            (element as any)._signal = signal;
+        }
 
         node.children.forEach(child => {
             const domElement = this.createDOMElement(child);

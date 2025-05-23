@@ -1,32 +1,52 @@
-import {createElement} from "../../framework/core/components.ts";
+import {div, button, p} from "../../framework/core/components.ts";
+import {createSignal} from "../../framework/core/signal.ts";
 
 
-const Counter = (props: any) => {
+const Counter = (props: {key: string}) => {
 
-    let counter = 0;
+    let counter = createSignal(0);
 
     const incCounter = () => {
-        counter++;
-        console.log(counter)
+        counter.value++;
     }
-
     const decCounter = () => {
-        counter--;
+        counter.value = counter.value - 1;
+    }
+    const resetCounter = () => {
+        counter.value = 0;
     }
 
-
-    return createElement.div(
+    return div(
         {
-            class: "flex flex-col items-center gap-2",
+            class: "flex items-center gap-2",
         },
-        createElement.button(
+        button(
             {
                 class: "btn btn-success",
                 onClick: incCounter
             },
             "Inc"
         ),
-        counter
+        p(
+            {
+                id: `counter-${props.key}`,
+            },
+            String(counter.value)
+        ),
+        button(
+            {
+                class: "btn btn-danger",
+                onClick: decCounter
+            },
+            "Dec"
+        ),
+        button(
+            {
+                class: "btn btn-warning",
+                onclick: resetCounter
+            },
+            "Reset"
+        )
     )
 }
 

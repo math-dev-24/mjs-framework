@@ -1,11 +1,4 @@
-import {ComponentMetadata} from "../framework/types/component.ts";
 import MjsElement from "../framework/core/components.ts"
-
-
-export const metadata: ComponentMetadata = {
-    name: "main",
-    description: "main"
-}
 
 
 const Hello = await import("./components/Hello.ts") ;
@@ -21,7 +14,7 @@ const Home = MjsElement(
     Hello.default(
         {name: "Mathieu", color: "red"})
     ,
-    Counter.default()
+    Counter.default({key: "1"}),
 )
 
 
