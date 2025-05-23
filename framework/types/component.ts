@@ -1,12 +1,8 @@
 import {Node} from "./node";
 
-export interface ComponentMetadata {
-    name: string;
-    description?: string;
-    debugInfo?: string;
-}
+export type ComponentFunction<T = any> = (props?: T) => Node;
 
 export interface Component {
-    default: Node,
-    metadata: ComponentMetadata
+    default: ComponentFunction,
+    metadata?: ComponentMetadata
 }

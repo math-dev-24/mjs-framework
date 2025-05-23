@@ -1,5 +1,4 @@
 import {ComponentMetadata} from "../framework/types/component.ts";
-import {Child} from "../framework/types/node.ts";
 import MjsElement from "../framework/core/components.ts"
 
 
@@ -9,20 +8,20 @@ export const metadata: ComponentMetadata = {
 }
 
 
-const Hello = await import("./components/Hello.ts") as Child;
-const Test = await import("./components/Test.ts") as Child;
-const Hidden = await import("./components/Hidden.ts") as Child;
+const Hello = await import("./components/Hello.ts") ;
+const Counter = await import("./components/Counter.ts") ;
 
 
 const Home = MjsElement(
     'div',
     {
-        idDom: "home",
-        class: "flex flex-col"
+        id: "home",
+        class: "flex flex-col gap-2"
     },
-    Hello,
-    Hidden,
-    Test
+    Hello.default(
+        {name: "Mathieu", color: "red"})
+    ,
+    Counter.default()
 )
 
 
