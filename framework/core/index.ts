@@ -1,27 +1,16 @@
-import {Child, Props} from '../types/node.ts';
-import {Component} from "../types/component.ts";
+import {Child, Component, Props} from "../types/component.ts";
 
 
 class MjsFramework {
-    /**
-     * Vérifie si un nœud est un composant
-     * @param node Nœud à vérifier
-     * @returns default node
-     */
-    isComponent(node: any): node is { default: any } {
-        return node && typeof node === 'object' && 'default' in node;
-    }
-
     /**
      * Convertit un Node en élément DOM réel
      * @param node Nœud à convertir
      * @returns HTMLElement | Text | null
      */
-    createDOMElement(node: Child): HTMLElement | Text | null {
-        if (this.isComponent(node)) {
-            return this.createDOMElement(node);
-        }
-
+    createDOMElement(
+        node: Child
+    ): HTMLElement | Text | null
+    {
         // Cas texte ou nombre
         if (typeof node === "string" || typeof node === "number") {
             return document.createTextNode(String(node));
@@ -32,39 +21,18 @@ class MjsFramework {
             return null;
         }
 
-        if (!node.show) {
-            return null;
-        }
-
         const element = document.createElement(node.type);
-
-        if (node.classList && node.classList.length > 0) {
-            element.classList.add(...node.classList);
-        }
-
-        if(node.idDom) {
-            element.id = node.idDom;
-        }
 
         this.setProps(element, node.props);
 
-        if ((node as any)._signal) {
-
-            console.log(node._signal)
-
-            const signal = (node as any)._signal;
-            signal.bindElement(element);
-
-            element.textContent = String(signal.value);
-            (element as any)._signal = signal;
+        if(node.children){
+            node.children.forEach(child => {
+                const domElement = this.createDOMElement(child);
+                if (domElement) {
+                    element.appendChild(domElement);
+                }
+            });
         }
-
-        node.children.forEach(child => {
-            const domElement = this.createDOMElement(child);
-            if (domElement) {
-                element.appendChild(domElement);
-            }
-        });
 
         return element;
     }
@@ -75,6 +43,9 @@ class MjsFramework {
      * @param props Propriétés à appliquer
      */
     setProps(element: HTMLElement, props: Props): void {
+        if (!props) {
+            return;
+        }
         Object.keys(props).forEach(key => {
             const value = props[key];
 
@@ -105,7 +76,6 @@ class MjsFramework {
      * @param container Conteneur dans lequel le rendu sera effectué string | HTMLElement
      */
     render(node: Component, container: HTMLElement | string): void {
-        const component = node.default;
 
         const containerElement = typeof container === "string"
             ? document.querySelector(container) as HTMLElement
@@ -117,7 +87,7 @@ class MjsFramework {
 
         containerElement.innerHTML = "";
 
-        const domElement = this.createDOMElement(component);
+        const domElement = this.createDOMElement(node.default);
 
         if (domElement) {
             containerElement.appendChild(domElement);

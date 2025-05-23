@@ -1,19 +1,19 @@
 import {div, button, p} from "../../framework/core/components.ts";
-import {createSignal} from "../../framework/core/signal.ts";
+import { useSignal } from "../../framework/core/signal.ts";
 
 
 const Counter = (props: {key: string}) => {
 
-    let counter = createSignal(0);
+    let [counter, setCounter] = useSignal(0)
 
     const incCounter = () => {
-        counter.value++;
+        setCounter(1);
     }
     const decCounter = () => {
-        counter.value = counter.value - 1;
+        setCounter(1);
     }
     const resetCounter = () => {
-        counter.value = 0;
+        setCounter(0);
     }
 
     return div(
@@ -31,7 +31,7 @@ const Counter = (props: {key: string}) => {
             {
                 id: `counter-${props.key}`,
             },
-            String(counter.value)
+            counter
         ),
         button(
             {
